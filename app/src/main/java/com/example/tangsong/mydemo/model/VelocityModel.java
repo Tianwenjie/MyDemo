@@ -3,7 +3,7 @@ package com.example.tangsong.mydemo.model;
 /**
  * Created by tangsong on 11/2/14.
  */
-public class ViticorModel {
+public class VelocityModel {
 
     private float mV0 = 5;
 

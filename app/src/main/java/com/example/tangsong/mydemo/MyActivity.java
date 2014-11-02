@@ -9,13 +9,19 @@ import android.widget.Button;
 
 import com.example.tangsong.mydemo.model.GameTimer;
 import com.example.tangsong.mydemo.model.IGameTimer;
-import com.example.tangsong.mydemo.model.ViticorModel;
+import com.example.tangsong.mydemo.model.VelocityModel;
 
 
 public class MyActivity extends Activity {
 
+    /**
+     * 当前游戏状态
+     */
     private GameState mGameState = GameState.IDEAL;
-    private ViticorModel mVitivorModel;
+    /**
+     *
+     */
+    private VelocityModel mVelocityModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +29,18 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
     }
 
+    /**
+     * 开始游戏按钮事件
+     *
+     * @param v
+     */
     public void startGame(final View v) {
         if (mGameState == GameState.PLAYING) {
             return;
         }
 
         mGameState = GameState.PLAYING;
-        mVitivorModel = new ViticorModel();
+        mVelocityModel = new VelocityModel();
 
         ((Button) v).setText("游戏进行中" + mGameState);
 
@@ -38,14 +49,19 @@ public class MyActivity extends Activity {
             @Override
             public void onEnd() {
                 mGameState = GameState.ENDING;
-                ((Button) v).setText("游戏结束" + mGameState + ", " + mVitivorModel.getCurrentV());
+                ((Button) v).setText("游戏结束" + mGameState + ", " + mVelocityModel.getCurrentV());
             }
         });
         gameTimer.start();
     }
 
+    /**
+     * 点击球时的按钮事件
+     *
+     * @param v
+     */
     public void clickBall(View v) {
-        mVitivorModel.addViticor();
+        mVelocityModel.addViticor();
     }
 
     @Override
@@ -67,7 +83,22 @@ public class MyActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 游戏状态枚举
+     */
     private enum GameState {
-        IDEAL, PLAYING, ENDING;
+        /**
+         * 空闲
+         */
+        IDEAL,
+        /**
+         * 游戏中
+         */
+        PLAYING,
+        /**
+         * 结束
+         */
+        ENDING;
     }
+
 }
