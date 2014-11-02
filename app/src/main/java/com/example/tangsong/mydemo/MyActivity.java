@@ -4,9 +4,18 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import com.example.tangsong.mydemo.model.GameTimer;
+import com.example.tangsong.mydemo.model.IGameTimer;
+import com.example.tangsong.mydemo.model.ViticorModel;
 
 
 public class MyActivity extends Activity {
+
+    private GameState mGameState = GameState.IDEAL;
+    private ViticorModel mVitivorModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +23,30 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
     }
 
+    public void startGame(final View v) {
+        if (mGameState == GameState.PLAYING) {
+            return;
+        }
+
+        mGameState = GameState.PLAYING;
+        mVitivorModel = new ViticorModel();
+
+        ((Button) v).setText("游戏进行中" + mGameState);
+
+        GameTimer gameTimer = new GameTimer();
+        gameTimer.setTimerListener(new IGameTimer.GameTimerListener() {
+            @Override
+            public void onEnd() {
+                mGameState = GameState.ENDING;
+                ((Button) v).setText("游戏结束" + mGameState + ", " + mVitivorModel.getCurrentV());
+            }
+        });
+        gameTimer.start();
+    }
+
+    public void clickBall(View v) {
+        mVitivorModel.addViticor();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,5 +65,9 @@ public class MyActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private enum GameState {
+        IDEAL, PLAYING, ENDING;
     }
 }
