@@ -25,4 +25,10 @@
         android:soundEffectsEnabled="false"
         android:text="点击小球" />
 
+    <com.example.tangsong.mydemo.view.MyAnimationView
+        android:id="@+id/anmi_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/click_ball" />
+
 </RelativeLayout>

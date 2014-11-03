@@ -11,6 +11,7 @@ import com.example.tangsong.mydemo.common.Utils;
 import com.example.tangsong.mydemo.model.GameTimer;
 import com.example.tangsong.mydemo.model.IGameTimer;
 import com.example.tangsong.mydemo.model.VelocityModel;
+import com.example.tangsong.mydemo.view.MyAnimationView;
 
 
 public class MyActivity extends Activity {
@@ -25,10 +26,14 @@ public class MyActivity extends Activity {
     private VelocityModel mVelocityModel;
     private SoundPlayer mSoundPlayer = new SoundPlayer();
 
+    private MyAnimationView myAnimationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+
+        myAnimationView = (MyAnimationView) findViewById(R.id.anmi_view);
     }
 
     /**
@@ -40,6 +45,8 @@ public class MyActivity extends Activity {
         if (mGameState == GameState.PLAYING) {
             return;
         }
+
+        myAnimationView.startAnimation();
 
         v.setClickable(false);
         mSoundPlayer.play(R.raw.game_start);
