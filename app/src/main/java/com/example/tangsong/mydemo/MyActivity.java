@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.tangsong.mydemo.common.Utils;
 import com.example.tangsong.mydemo.model.GameTimer;
 import com.example.tangsong.mydemo.model.IGameTimer;
 import com.example.tangsong.mydemo.model.VelocityModel;
@@ -22,6 +23,7 @@ public class MyActivity extends Activity {
      *
      */
     private VelocityModel mVelocityModel;
+    private SoundPlayer mSoundPlayer = new SoundPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,9 @@ public class MyActivity extends Activity {
             return;
         }
 
+        v.setClickable(false);
+        mSoundPlayer.play(R.raw.game_start);
+
         mGameState = GameState.PLAYING;
         mVelocityModel = new VelocityModel();
 
@@ -50,9 +55,23 @@ public class MyActivity extends Activity {
             public void onEnd() {
                 mGameState = GameState.ENDING;
                 ((Button) v).setText("游戏结束" + mGameState + ", " + mVelocityModel.getCurrentV());
+                v.setClickable(true);
+                mSoundPlayer.play(R.raw.game_over_evil);
             }
         });
         gameTimer.start();
+    }
+
+    @Override
+    protected void onStart() {
+        mSoundPlayer.create(this);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mSoundPlayer.destory();
+        super.onStop();
     }
 
     /**
@@ -61,7 +80,14 @@ public class MyActivity extends Activity {
      * @param v
      */
     public void clickBall(View v) {
-        mVelocityModel.addViticor();
+        if (mGameState == GameState.PLAYING) {
+            mVelocityModel.addViticor();
+            mSoundPlayer.play(R.raw.ball_bubble);
+        } else {
+            Utils.toast(this, "请先开始游戏");
+        }
+
+
     }
 
     @Override

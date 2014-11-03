@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="startGame"
+        android:soundEffectsEnabled="false"
         android:text="开始" />
 
     <Button
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/start_game"
         android:onClick="clickBall"
+        android:soundEffectsEnabled="false"
         android:text="点击小球" />
 
 </RelativeLayout>
